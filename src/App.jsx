@@ -6,25 +6,25 @@ import Isi from "./Pages/Isi";
 export default function App() {
   const audioRef = useRef(null);
 
-  // ✅ Jalankan musik setelah interaksi pertama pengguna
   useEffect(() => {
-    const handleInteraction = () => {
+    const playAudio = () => {
       if (audioRef.current) {
-        audioRef.current
-          .play()
-          .then(() => console.log("🎵 Musik mulai diputar"))
-          .catch((err) => console.warn("⚠️ Autoplay diblokir:", err));
+        audioRef.current.play().catch((err) => {
+          console.warn("⚠️ Autoplay diblokir:", err);
+        });
       }
-      document.removeEventListener("click", handleInteraction);
-      document.removeEventListener("touchstart", handleInteraction);
     };
 
-    document.addEventListener("click", handleInteraction);
-    document.addEventListener("touchstart", handleInteraction);
+    // ✅ Coba langsung play (desktop)
+    playAudio();
+
+    // ✅ Dengarkan interaksi pertama (HP / iOS)
+    document.addEventListener("click", playAudio, { once: true });
+    document.addEventListener("touchstart", playAudio, { once: true });
 
     return () => {
-      document.removeEventListener("click", handleInteraction);
-      document.removeEventListener("touchstart", handleInteraction);
+      document.removeEventListener("click", playAudio);
+      document.removeEventListener("touchstart", playAudio);
     };
   }, []);
 
@@ -34,7 +34,6 @@ export default function App() {
       <audio
         ref={audioRef}
         src="/lagu.mp3"
-        autoPlay
         loop
         preload="auto"
         onPlay={() => console.log("✅ Lagu berhasil diputar")}
