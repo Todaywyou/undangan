@@ -1,16 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
-import Isi from "./Pages/Isi"; // ✅ Tambah import halaman isi
+import Isi from "./Pages/Isi";
 
 export default function App() {
   const audioRef = useRef(null);
 
-  // 🎵 Mulai lagu otomatis setelah interaksi pertama (aturan browser)
+  // ✅ Jalankan musik setelah interaksi pertama pengguna
   useEffect(() => {
     const handleInteraction = () => {
       if (audioRef.current) {
-        audioRef.current.play().catch(() => {});
+        audioRef.current
+          .play()
+          .then(() => console.log("🎵 Musik mulai diputar"))
+          .catch((err) => console.warn("⚠️ Autoplay diblokir:", err));
       }
       document.removeEventListener("click", handleInteraction);
       document.removeEventListener("touchstart", handleInteraction);
@@ -34,13 +37,15 @@ export default function App() {
         autoPlay
         loop
         preload="auto"
+        onPlay={() => console.log("✅ Lagu berhasil diputar")}
+        onError={(e) => console.error("❌ Gagal memuat lagu.mp3", e)}
         style={{ display: "none" }}
       />
 
       {/* Semua halaman */}
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/isi" element={<Isi />} /> {/* ✅ route baru */}
+        <Route path="/isi" element={<Isi />} />
       </Routes>
     </BrowserRouter>
   );
