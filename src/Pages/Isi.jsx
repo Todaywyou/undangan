@@ -3,7 +3,7 @@ import Ayat from "../components/Ayat";
 import Header from "../components/Heder";
 import Tanggal from "../components/Tanggal";
 import Foto from "../components/Foto";
-import Bersama from "../components/bersama";
+import Bersama from "../components/Bersama";
 import AkadResepsi from "../components/AkadResepsi";
 import BottomNav from "../components/BottomNav"; // ✅ Tambahkan ini
 import Rek from "../components/Rek";
@@ -40,7 +40,7 @@ export default function Isi() {
         <Header />
       </FadeSection>
       <FadeSection>
-        <Bersama />
+       <Bersama/>
       </FadeSection>
       <FadeSection>
         <Tanggal />
