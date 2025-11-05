@@ -58,6 +58,9 @@ export default function Isi() {
       <FadeSection id="akad">
         <Rek />
       </FadeSection>
+      <FadeSection id="akad">
+        <IsiUcapan/>
+      </FadeSection>
 
       {/* ✅ Sidebar bawah */}
       <BottomNav />
