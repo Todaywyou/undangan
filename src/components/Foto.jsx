@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 export default function Foto() {
   // 🌸 Membuat posisi bunga acak yang tidak bertumpuk
   const flowers = useMemo(() => {
-    const count = window.innerWidth < 768 ? 14 : 20; // lebih sedikit di mobile
+    const count = window.innerWidth < 768 ? 14 : 20;
     const used = [];
-    const minDistance = 12; // jarak minimum antar bunga (dlm %)
+    const minDistance = 12;
     const safe = (pos) =>
       used.every(
         (p) => Math.hypot(p.left - pos.left, p.top - pos.top) > minDistance
@@ -31,12 +31,12 @@ export default function Foto() {
 
   return (
     <section className="relative w-full flex flex-col items-center justify-center bg-gradient-to-b from-[#fffdfb] via-[#fff5f6] to-[#ffeef0] py-16 px-4 sm:py-20 sm:px-6 overflow-hidden">
-      {/* 🌸 Latar belakang bunga yang berkedip */}
+      {/* 🌸 Latar belakang bunga */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         {flowers.map((flower) => (
           <motion.img
             key={flower.id}
-            src="/kedip.png" // ubah dengan bunga PNG transparan
+            src="/kedip.png"
             alt="bunga"
             initial={{ opacity: 0 }}
             animate={{
@@ -62,8 +62,6 @@ export default function Foto() {
         ))}
       </div>
 
-     
-
       {/* 🕊️ Foto Mempelai Perempuan */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -71,18 +69,18 @@ export default function Foto() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="flex flex-col items-center text-center z-10"
       >
-        <div className="relative rounded-full overflow-hidden shadow-lg border-4 border-rose-200 w-40 h-40 sm:w-60 sm:h-60">
+        <div className="relative rounded-full overflow-hidden shadow-lg border-4 border-rose-200 w-44 h-44 sm:w-60 sm:h-60 bg-white flex items-center justify-center">
           <img
-            src="/wanita.png"
+            src="/wanita1.jpg"
             alt="Mempelai Wanita"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain bg-white scale-105"
           />
         </div>
         <h3 className="mt-5 text-xl sm:text-3xl font-script text-[#5b4636]">
           Nabila Prama Shella
         </h3>
         <p className="mt-2 text-sm sm:text-lg text-[#7a6759] italic">
-         Anak Pertama dari Bpk Yudi Irawan & Ibu Rini Sundari
+          Anak Pertama dari Bpk Yudi Irawan & Ibu Rini Sundari
         </p>
       </motion.div>
 
@@ -106,22 +104,20 @@ export default function Foto() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="flex flex-col items-center text-center z-10"
       >
-        <div className="relative rounded-full overflow-hidden shadow-lg border-4 border-rose-200 w-40 h-40 sm:w-60 sm:h-60">
+        <div className="relative rounded-full overflow-hidden shadow-lg border-4 border-rose-200 w-44 h-44 sm:w-60 sm:h-60 bg-white flex items-center justify-center">
           <img
-            src="/pria.png"
+            src="/laki1.jpg"
             alt="Mempelai Pria"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain bg-white scale-105"
           />
         </div>
         <h3 className="mt-5 text-xl sm:text-3xl font-script text-[#5b4636]">
           Edo Rikardo
         </h3>
         <p className="mt-2 text-sm sm:text-lg text-[#7a6759] italic">
-         Anak Pertama dari Bpk Supriyanto & ibu Herawati
+          Anak Pertama dari Bpk Supriyanto & Ibu Herawati
         </p>
       </motion.div>
-
-    
     </section>
   );
 }

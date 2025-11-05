@@ -160,13 +160,13 @@ function Pembukaan({ onOpen }) {
                 className="text-base sm:text-2xl font-semibold"
                 style={{ color: "#5b3a29" }}
               >
-                Edo Pratama
+                Edo Rikardo
               </h2>
               <p
                 className="italic text-sm sm:text-lg mt-1 leading-tight"
                 style={{ color: "#8b6a4f" }}
               >
-                Putra dari Bapak Arif & Ibu Wati
+               Anak pertama dari Bpk SUpriyanto & Ibu Herawati
               </p>
             </motion.div>
 
@@ -189,13 +189,13 @@ function Pembukaan({ onOpen }) {
                 className="text-base sm:text-2xl font-semibold"
                 style={{ color: "#5b3a29" }}
               >
-                Sela Rahmawati
+                Nabila Prama Shella 
               </h2>
               <p
                 className="italic text-sm sm:text-lg mt-1 leading-tight"
                 style={{ color: "#8b6a4f" }}
               >
-                Putri dari Bapak Dedi & Ibu Sari
+                 Anak Pertama dari Bpk Yudi Irawan & Ibu Rini Sundaria
               </p>
             </motion.div>
           </div>

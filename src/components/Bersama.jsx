@@ -9,13 +9,13 @@ export default function Bersama() {
   const photos = [
     {
       id: 1,
-      src: "/6.png",
+      src: "/b1.jpg",
       caption:
         "Momen penuh tawa dan kebersamaan, di mana cinta tumbuh tanpa rencana.",
     },
     {
       id: 2,
-      src: "/6.png",
+      src: "/b2.jpg",
       caption:
         "Setiap detik bersamamu adalah kenangan indah yang tak tergantikan.",
     },
@@ -26,7 +26,6 @@ export default function Bersama() {
     },
   ];
 
-  // 🔍 Deteksi ukuran layar
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
@@ -34,7 +33,6 @@ export default function Bersama() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // 📱 Geser kiri/kanan
   const handleDragEnd = (event, info) => {
     if (info.offset.x < -100) {
       setIndex((prev) => (prev + 1) % photos.length);
@@ -44,10 +42,7 @@ export default function Bersama() {
   };
 
   return (
-    <section
-      className="relative w-full flex flex-col items-center justify-center 
-      bg-gradient-to-b via-[#ffe9ee] to-white py-20 px-6 overflow-visible"
-    >
+    <section className="relative w-full flex flex-col items-center justify-center bg-gradient-to-b via-[#ffe9ee] to-white py-20 px-6 overflow-visible">
       {/* 🌸 Ornamen kiri */}
       <motion.img
         src="/kiri.png"
@@ -86,7 +81,7 @@ export default function Bersama() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="w-[240px] h-[300px] bg-white border border-rose-100 rounded-3xl shadow-xl overflow-hidden flex-shrink-0 cursor-grab active:cursor-grabbing"
+              className="w-[240px] h-[320px] bg-white border border-rose-100 rounded-3xl shadow-xl overflow-hidden flex-shrink-0 cursor-grab active:cursor-grabbing"
               onClick={() => setSelected(photos[index])}
             >
               <img
@@ -99,47 +94,33 @@ export default function Bersama() {
         </div>
       ) : (
         // 💻 Desktop Mode
-        <div className="relative flex items-center justify-center w-full max-w-5xl z-10">
-          {/* Kiri */}
-          <motion.div
-            onClick={() => setSelected(photos[0])}
-            whileHover={{ scale: 1.05 }}
-            className="absolute -rotate-6 cursor-pointer bg-white border border-rose-100 rounded-3xl shadow-xl w-[240px] h-[300px]"
-            style={{ left: "15%", top: "10%" }}
-          >
-            <img
-              src={photos[0].src}
-              alt="foto"
-              className="w-full h-full object-cover rounded-3xl"
-            />
-          </motion.div>
-
-          {/* Tengah */}
-          <motion.div
-            onClick={() => setSelected(photos[1])}
-            whileHover={{ scale: 1.05 }}
-            className="z-20 cursor-pointer bg-white border border-rose-100 rounded-3xl shadow-xl w-[260px] h-[320px]"
-          >
-            <img
-              src={photos[1].src}
-              alt="foto"
-              className="w-full h-full object-cover rounded-3xl"
-            />
-          </motion.div>
-
-          {/* Kanan */}
-          <motion.div
-            onClick={() => setSelected(photos[2])}
-            whileHover={{ scale: 1.05 }}
-            className="absolute rotate-6 cursor-pointer bg-white border border-rose-100 rounded-3xl shadow-xl w-[240px] h-[300px]"
-            style={{ right: "15%", top: "10%" }}
-          >
-            <img
-              src={photos[2].src}
-              alt="foto"
-              className="w-full h-full object-cover rounded-3xl"
-            />
-          </motion.div>
+        <div className="relative flex items-center justify-center w-full max-w-5xl z-10 gap-12">
+          {photos.map((photo, i) => (
+            <motion.div
+              key={photo.id}
+              onClick={() => setSelected(photo)}
+              whileHover={{ scale: 1.05 }}
+              className={`cursor-pointer bg-white border border-rose-100 rounded-3xl shadow-xl overflow-hidden transition-transform duration-300 ${
+                i === 1
+                  ? "z-20 w-[260px] h-[320px]"
+                  : "z-10 w-[240px] h-[300px]"
+              }`}
+              style={{
+                transform:
+                  i === 0
+                    ? "rotate(-6deg)"
+                    : i === 2
+                    ? "rotate(6deg)"
+                    : "rotate(0deg)",
+              }}
+            >
+              <img
+                src={photo.src}
+                alt="foto"
+                className="w-full h-full object-cover rounded-3xl"
+              />
+            </motion.div>
+          ))}
         </div>
       )}
 
@@ -175,7 +156,7 @@ export default function Bersama() {
                 className={`${
                   isMobile
                     ? "w-full h-48 object-cover rounded-xl mb-3"
-                    : "md:w-1/2 w-full h-72 object-cover"
+                    : "md:w-1/2 w-full h-[350px] object-cover"
                 }`}
               />
 
@@ -204,8 +185,6 @@ export default function Bersama() {
           </motion.div>
         )}
       </AnimatePresence>
-
-   
     </section>
   );
 }

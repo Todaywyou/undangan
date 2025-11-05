@@ -26,7 +26,7 @@ export default function Rek() {
 
   const rekenings = [
     { bank: "BCA", no: "8435439841", nama: "Nabilah Pramasshella" },
-    { bank: "BRI", no: "220601004891500", nama: "Eko Rikardo" },
+    { bank: "BRI", no: "220601004891500", nama: "Edo Rikardo" },
   ];
 
   return (
