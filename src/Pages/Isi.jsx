@@ -7,7 +7,7 @@ import Bersama from "../components/Bersama";
 import AkadResepsi from "../components/AkadResepsi";
 import BottomNav from "../components/BottomNav"; // ✅ Tambahkan ini
 import Rek from "../components/Rek";
-import Ucapan from "../components/Ucapan";
+import IsiUcapan from "../components/IsiUcapan";
 
 
 
@@ -57,6 +57,10 @@ export default function Isi() {
       </FadeSection>
       <FadeSection id="akad">
         <Rek />
+      </FadeSection>
+
+      <FadeSection id="akad">
+       <IsiUcapan />
       </FadeSection>
 
       {/* ✅ Sidebar bawah */}
