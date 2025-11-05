@@ -54,7 +54,7 @@ export default function BottomNav() {
         className="flex flex-col items-center text-sm text-gray-600 hover:text-pink-600 transition"
       >
         <Users size={22} />
-        <span className="text-[12px] mt-1">Foto</span>
+        <span className="text-[12px] mt-1">Kami</span>
       </button>
     </nav>
   );
