@@ -166,7 +166,7 @@ function Pembukaan({ onOpen }) {
                 className="italic text-sm sm:text-lg mt-1 leading-tight"
                 style={{ color: "#8b6a4f" }}
               >
-               Anak pertama dari Bpk SUpriyanto & Ibu Herawati
+               Anak pertama dari Bpk Supriyanto & Ibu Herawati
               </p>
             </motion.div>
 

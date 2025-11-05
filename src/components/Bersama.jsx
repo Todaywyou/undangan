@@ -133,7 +133,7 @@ export default function Bersama() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             className={`fixed inset-0 flex items-center justify-center z-50 ${
-              isMobile ? "bg-transparent" : "bg-black/60"
+              isMobile ? "bg-black/40" : "bg-black/60"
             }`}
             onClick={() => setSelected(null)}
           >
@@ -145,7 +145,7 @@ export default function Bersama() {
               transition={{ duration: 0.4 }}
               className={`${
                 isMobile
-                  ? "w-[90%] max-w-sm bg-white rounded-2xl shadow-lg flex flex-col items-center p-4"
+                  ? "w-[80%] max-w-xs bg-white rounded-2xl shadow-lg flex flex-col items-center p-3"
                   : "bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden max-w-4xl"
               }`}
             >
@@ -155,7 +155,7 @@ export default function Bersama() {
                 alt="foto"
                 className={`${
                   isMobile
-                    ? "w-full h-48 object-cover rounded-xl mb-3"
+                    ? "w-full h-[180px] object-cover rounded-xl mb-3"
                     : "md:w-1/2 w-full h-[350px] object-cover"
                 }`}
               />
@@ -164,19 +164,19 @@ export default function Bersama() {
               <div
                 className={`${
                   isMobile
-                    ? "text-center"
+                    ? "text-center p-2"
                     : "md:w-1/2 p-8 text-center md:text-left bg-gradient-to-br from-[#fff8f9] to-[#ffeef0]"
                 }`}
               >
-                <h3 className="text-2xl font-script text-[#5b4636] mb-3">
+                <h3 className="text-xl font-script text-[#5b4636] mb-2">
                   Momen Spesial
                 </h3>
-                <p className="text-[#6a5444] text-base font-serif italic leading-relaxed">
+                <p className="text-[#6a5444] text-sm font-serif italic leading-relaxed">
                   {selected.caption}
                 </p>
                 <button
                   onClick={() => setSelected(null)}
-                  className="mt-4 px-5 py-2 bg-[#f9d9da] hover:bg-[#f3c9ca] rounded-full text-[#5b4636] font-medium transition"
+                  className="mt-3 px-4 py-2 bg-[#f9d9da] hover:bg-[#f3c9ca] rounded-full text-[#5b4636] font-medium transition text-sm"
                 >
                   Tutup
                 </button>
