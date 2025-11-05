@@ -81,7 +81,7 @@ export default function Bersama() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="w-[240px] h-[320px] bg-white border border-rose-100 rounded-3xl shadow-xl overflow-hidden flex-shrink-0 cursor-grab active:cursor-grabbing"
+              className="w-[220px] h-[300px] bg-white border border-rose-100 rounded-3xl shadow-xl overflow-hidden flex-shrink-0 cursor-grab active:cursor-grabbing"
               onClick={() => setSelected(photos[index])}
             >
               <img
@@ -139,13 +139,13 @@ export default function Bersama() {
           >
             <motion.div
               onClick={(e) => e.stopPropagation()}
-              initial={{ scale: 0.8 }}
+              initial={{ scale: 0.85 }}
               animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
+              exit={{ scale: 0.85 }}
               transition={{ duration: 0.4 }}
               className={`${
                 isMobile
-                  ? "w-[80%] max-w-xs bg-white rounded-2xl shadow-lg flex flex-col items-center p-3"
+                  ? "w-[85%] max-w-[320px] bg-white rounded-2xl shadow-lg flex flex-col items-center p-3"
                   : "bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden max-w-4xl"
               }`}
             >
@@ -155,7 +155,7 @@ export default function Bersama() {
                 alt="foto"
                 className={`${
                   isMobile
-                    ? "w-full h-[180px] object-cover rounded-xl mb-3"
+                    ? "w-[90%] h-[180px] object-cover rounded-xl mb-2"
                     : "md:w-1/2 w-full h-[350px] object-cover"
                 }`}
               />
@@ -164,7 +164,7 @@ export default function Bersama() {
               <div
                 className={`${
                   isMobile
-                    ? "text-center p-2"
+                    ? "px-3 pb-2 text-center"
                     : "md:w-1/2 p-8 text-center md:text-left bg-gradient-to-br from-[#fff8f9] to-[#ffeef0]"
                 }`}
               >
@@ -176,7 +176,7 @@ export default function Bersama() {
                 </p>
                 <button
                   onClick={() => setSelected(null)}
-                  className="mt-3 px-4 py-2 bg-[#f9d9da] hover:bg-[#f3c9ca] rounded-full text-[#5b4636] font-medium transition text-sm"
+                  className="mt-3 px-4 py-2 bg-[#f9d9da] hover:bg-[#f3c9ca] rounded-full text-[#5b4636] text-sm font-medium transition"
                 >
                   Tutup
                 </button>
