@@ -5,11 +5,9 @@ import Tanggal from "../components/Tanggal";
 import Foto from "../components/Foto";
 import Bersama from "../components/Bersama";
 import AkadResepsi from "../components/AkadResepsi";
-import BottomNav from "../components/BottomNav"; // ✅ Tambahkan ini
+import BottomNav from "../components/BottomNav";
 import Rek from "../components/Rek";
 import IsiUcapan from "../components/IsiUcapan";
-
-
 
 const fadeVariant = {
   hidden: { opacity: 0, y: 40, scale: 0.95 },
@@ -17,8 +15,13 @@ const fadeVariant = {
   exit: { opacity: 0, y: -40, scale: 0.95 },
 };
 
-function FadeSection({ children, id }) {
-  return (
+// ✅ Komponen FadeSection — dengan opsi disableInView
+function FadeSection({ children, id, disableInView = false }) {
+  return disableInView ? (
+    <div id={id} className="w-full flex flex-col items-center">
+      {children}
+    </div>
+  ) : (
     <motion.div
       id={id}
       variants={fadeVariant}
@@ -40,22 +43,28 @@ export default function Isi() {
       <FadeSection>
         <Header />
       </FadeSection>
+
       <FadeSection>
         <Bersama />
       </FadeSection>
+
       <FadeSection>
         <Tanggal />
       </FadeSection>
+
       <FadeSection>
         <Ayat />
       </FadeSection>
+
       <FadeSection id="foto">
         <Foto />
       </FadeSection>
+
       <FadeSection id="akad">
         <AkadResepsi />
       </FadeSection>
-      <FadeSection id="akad">
+
+      <FadeSection id="rek">
         <Rek />
       </FadeSection>
 
