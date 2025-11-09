@@ -58,8 +58,10 @@ export default function Isi() {
       <FadeSection id="akad">
         <Rek />
       </FadeSection>
-      <FadeSection id="akad">
-       <IsiUcapan/>
+
+      {/* ✅ Bagian ucapan tanpa animasi viewport */}
+      <FadeSection id="ucapan" disableInView>
+        <IsiUcapan />
       </FadeSection>
 
       {/* ✅ Sidebar bawah */}
