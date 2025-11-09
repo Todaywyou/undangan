@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 
 export default function IsiUcapan() {
+  const [nama, setNama] = useState("");
   const [pesan, setPesan] = useState("");
   const [daftarPesan, setDaftarPesan] = useState([]);
   const chatEndRef = useRef(null);
@@ -26,15 +27,19 @@ export default function IsiUcapan() {
     return () => unsubscribe();
   }, []);
 
-  // Auto scroll ke bawah saat pesan baru
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [daftarPesan]);
 
   const kirimPesan = async () => {
-    if (!pesan.trim()) return alert("Pesan tidak boleh kosong!");
+    if (!nama.trim() || !pesan.trim()) {
+      alert("Nama dan pesan tidak boleh kosong!");
+      return;
+    }
+
     try {
       await addDoc(collection(db, "ucapan"), {
+        nama: nama.trim(),
         pesan: pesan.trim(),
         waktu: serverTimestamp(),
       });
@@ -44,15 +49,31 @@ export default function IsiUcapan() {
     }
   };
 
+  // Fungsi warna avatar dari huruf depan
+  const getColor = (text) => {
+    const colors = [
+      "bg-pink-400",
+      "bg-blue-400",
+      "bg-green-400",
+      "bg-yellow-400",
+      "bg-purple-400",
+      "bg-orange-400",
+      "bg-rose-400",
+      "bg-teal-400",
+    ];
+    const index = text.charCodeAt(0) % colors.length;
+    return colors[index];
+  };
+
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white rounded-3xl shadow-xl border border-pink-100 overflow-hidden flex flex-col h-[80vh]">
+    <div className="flex flex-col h-screen bg-gradient-to-b from-pink-50 to-white relative">
       {/* Header */}
-      <div className="bg-gradient-to-r from-pink-400 to-pink-500 text-white py-4 text-center font-semibold text-lg shadow-md">
+      <div className="bg-gradient-to-r from-pink-400 to-pink-500 text-white py-3 text-center font-semibold text-lg shadow-md sticky top-0 z-10">
         💌 Kirim Ucapan
       </div>
 
-      {/* Chat List */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 bg-pink-50 space-y-3">
+      {/* Chat Bubble List */}
+      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
         {daftarPesan.length > 0 ? (
           daftarPesan.map((item, index) => (
             <div
@@ -61,19 +82,48 @@ export default function IsiUcapan() {
                 index % 2 === 0 ? "justify-start" : "justify-end"
               }`}
             >
-              <div
-                className={`max-w-[80%] px-4 py-2 rounded-2xl shadow-md text-sm ${
-                  index % 2 === 0
-                    ? "bg-white border border-pink-100 text-gray-700"
-                    : "bg-pink-500 text-white"
-                }`}
-              >
-                <p>{item.pesan}</p>
-                <p className="text-[10px] opacity-70 mt-1 text-right">
-                  {item.waktu
-                    ? new Date(item.waktu.toDate()).toLocaleTimeString()
-                    : "Baru saja"}
-                </p>
+              <div className="flex items-end space-x-2 max-w-[80%]">
+                {/* Avatar kiri */}
+                {index % 2 === 0 && (
+                  <div
+                    className={`w-8 h-8 flex items-center justify-center rounded-full text-white font-semibold text-sm shadow-md ${getColor(
+                      item.nama || "?"
+                    )}`}
+                  >
+                    {item.nama ? item.nama.charAt(0).toUpperCase() : "?"}
+                  </div>
+                )}
+
+                {/* Bubble Chat */}
+                <div
+                  className={`px-4 py-2 rounded-2xl shadow-md ${
+                    index % 2 === 0
+                      ? "bg-white border border-pink-100 text-gray-700"
+                      : "bg-pink-500 text-white"
+                  }`}
+                >
+                  <p className="font-semibold text-sm">{item.nama}</p>
+                  <p className="text-sm">{item.pesan}</p>
+                  <p className="text-[10px] opacity-70 mt-1 text-right">
+                    {item.waktu
+                      ? new Date(item.waktu.toDate()).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                      : "Baru saja"}
+                  </p>
+                </div>
+
+                {/* Avatar kanan */}
+                {index % 2 !== 0 && (
+                  <div
+                    className={`w-8 h-8 flex items-center justify-center rounded-full text-white font-semibold text-sm shadow-md ${getColor(
+                      item.nama || "?"
+                    )}`}
+                  >
+                    {item.nama ? item.nama.charAt(0).toUpperCase() : "?"}
+                  </div>
+                )}
               </div>
             </div>
           ))
@@ -85,20 +135,29 @@ export default function IsiUcapan() {
         <div ref={chatEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="p-3 bg-white border-t border-pink-100 flex items-center space-x-2">
-        <textarea
-          value={pesan}
-          onChange={(e) => setPesan(e.target.value)}
-          placeholder="Tulis ucapanmu..."
-          className="flex-1 resize-none p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm h-12"
+      {/* Input area */}
+      <div className="bg-white border-t border-pink-100 p-3 sticky bottom-0">
+        <input
+          type="text"
+          value={nama}
+          onChange={(e) => setNama(e.target.value)}
+          placeholder="Nama kamu..."
+          className="w-full p-2 mb-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm"
         />
-        <button
-          onClick={kirimPesan}
-          className="bg-pink-500 hover:bg-pink-600 text-white rounded-xl px-4 py-2 transition-all shadow-md"
-        >
-          Kirim
-        </button>
+        <div className="flex space-x-2">
+          <textarea
+            value={pesan}
+            onChange={(e) => setPesan(e.target.value)}
+            placeholder="Tulis ucapanmu..."
+            className="flex-1 resize-none p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm h-12"
+          />
+          <button
+            onClick={kirimPesan}
+            className="bg-pink-500 hover:bg-pink-600 text-white rounded-xl px-4 py-2 transition-all shadow-md"
+          >
+            Kirim
+          </button>
+        </div>
       </div>
     </div>
   );
