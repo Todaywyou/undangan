@@ -14,9 +14,10 @@ export default function IsiUcapan() {
   const [pesan, setPesan] = useState("");
   const [daftarPesan, setDaftarPesan] = useState([]);
   const scrollRef = useRef(null);
-  const firstLoad = useRef(true); // ✅ Tambahan: untuk mencegah auto-scroll saat pertama kali load
+  const firstLoad = useRef(true);
+  const afterKirim = useRef(false);
 
-  // Ambil data realtime dari Firestore
+  // Ambil data realtime
   useEffect(() => {
     const q = query(collection(db, "ucapan"), orderBy("waktu", "asc"));
     const unsub = onSnapshot(q, (snap) => {
@@ -26,13 +27,16 @@ export default function IsiUcapan() {
     return () => unsub();
   }, []);
 
-  // ✅ Scroll hanya setelah pesan baru dikirim, bukan saat pertama kali load
+  // ✅ Scroll hanya setelah pesan dikirim, bukan saat load
   useEffect(() => {
     if (firstLoad.current) {
       firstLoad.current = false;
       return;
     }
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (afterKirim.current) {
+      scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+      afterKirim.current = false;
+    }
   }, [daftarPesan]);
 
   const kirimPesan = async () => {
@@ -40,6 +44,7 @@ export default function IsiUcapan() {
       alert("Nama dan pesan tidak boleh kosong!");
       return;
     }
+
     try {
       await addDoc(collection(db, "ucapan"), {
         nama: nama.trim(),
@@ -47,12 +52,12 @@ export default function IsiUcapan() {
         waktu: serverTimestamp(),
       });
       setPesan("");
+      afterKirim.current = true; // ✅ tandai agar scroll hanya setelah kirim
     } catch (e) {
       console.error("Gagal kirim ucapan:", e);
     }
   };
 
-  // Warna avatar huruf depan nama (acak tapi konsisten)
   const warnaAvatar = (text) => {
     const colors = [
       "bg-pink-400",
@@ -68,13 +73,15 @@ export default function IsiUcapan() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto px-4 py-6 bg-gradient-to-b from-pink-50 to-white rounded-2xl shadow-md">
-      {/* Judul */}
+    <div
+      className="w-full max-w-md mx-auto px-4 py-6 bg-gradient-to-b from-pink-50 to-white rounded-2xl shadow-md"
+      tabIndex={-1} // 🚫 mencegah auto-focus scroll ke input
+    >
       <h2 className="text-center text-lg font-semibold text-pink-600 mb-4 flex items-center justify-center gap-2">
         💌 Kirim Ucapan
       </h2>
 
-      {/* Daftar Ucapan (scrollable) */}
+      {/* Daftar Ucapan */}
       <div className="max-h-96 overflow-y-auto space-y-3 mb-4 px-1">
         {daftarPesan.length === 0 ? (
           <p className="text-center text-gray-400 text-sm">
