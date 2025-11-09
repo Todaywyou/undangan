@@ -14,6 +14,7 @@ export default function IsiUcapan() {
   const [pesan, setPesan] = useState("");
   const [daftarPesan, setDaftarPesan] = useState([]);
   const scrollRef = useRef(null);
+  const firstLoad = useRef(true); // ✅ Tambahan: untuk mencegah auto-scroll saat pertama kali load
 
   // Ambil data realtime dari Firestore
   useEffect(() => {
@@ -25,7 +26,12 @@ export default function IsiUcapan() {
     return () => unsub();
   }, []);
 
+  // ✅ Scroll hanya setelah pesan baru dikirim, bukan saat pertama kali load
   useEffect(() => {
+    if (firstLoad.current) {
+      firstLoad.current = false;
+      return;
+    }
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [daftarPesan]);
 
@@ -46,6 +52,7 @@ export default function IsiUcapan() {
     }
   };
 
+  // Warna avatar huruf depan nama (acak tapi konsisten)
   const warnaAvatar = (text) => {
     const colors = [
       "bg-pink-400",
@@ -93,7 +100,9 @@ export default function IsiUcapan() {
                 <p className="font-semibold text-pink-600 text-sm">
                   {item.nama}
                 </p>
-                <p className="text-gray-700 text-sm">{item.pesan}</p>
+                <p className="text-gray-700 text-sm leading-snug">
+                  {item.pesan}
+                </p>
                 <p className="text-[10px] text-gray-400 mt-1">
                   {item.waktu
                     ? new Date(item.waktu.toDate()).toLocaleString("id-ID", {
