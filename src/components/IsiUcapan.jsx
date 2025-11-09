@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebase";
 import {
   collection,
@@ -12,10 +12,10 @@ import {
 export default function IsiUcapan() {
   const [pesan, setPesan] = useState("");
   const [daftarPesan, setDaftarPesan] = useState([]);
+  const chatEndRef = useRef(null);
 
-  // Ambil data secara real-time
   useEffect(() => {
-    const q = query(collection(db, "ucapan"), orderBy("waktu", "desc"));
+    const q = query(collection(db, "ucapan"), orderBy("waktu", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -23,14 +23,16 @@ export default function IsiUcapan() {
       }));
       setDaftarPesan(data);
     });
-
     return () => unsubscribe();
   }, []);
 
-  // Fungsi kirim pesan
+  // Auto scroll ke bawah saat pesan baru
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [daftarPesan]);
+
   const kirimPesan = async () => {
     if (!pesan.trim()) return alert("Pesan tidak boleh kosong!");
-
     try {
       await addDoc(collection(db, "ucapan"), {
         pesan: pesan.trim(),
@@ -43,50 +45,60 @@ export default function IsiUcapan() {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
-      <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">
+    <div className="max-w-md mx-auto mt-10 bg-white rounded-3xl shadow-xl border border-pink-100 overflow-hidden flex flex-col h-[80vh]">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-pink-400 to-pink-500 text-white py-4 text-center font-semibold text-lg shadow-md">
         💌 Kirim Ucapan
-      </h2>
+      </div>
 
-      <textarea
-        value={pesan}
-        onChange={(e) => setPesan(e.target.value)}
-        placeholder="Tulis ucapanmu di sini..."
-        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 mb-3"
-        rows="3"
-      />
-      <button
-        onClick={kirimPesan}
-        className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-lg font-medium transition-all"
-      >
-        Kirim
-      </button>
-
-      <div className="mt-6">
-        <h3 className="text-lg font-semibold text-gray-600 mb-3">
-          ✨ Ucapan dari Teman-Teman
-        </h3>
-        <div className="space-y-3 max-h-64 overflow-y-auto">
-          {daftarPesan.length > 0 ? (
-            daftarPesan.map((item) => (
+      {/* Chat List */}
+      <div className="flex-1 overflow-y-auto px-4 py-3 bg-pink-50 space-y-3">
+        {daftarPesan.length > 0 ? (
+          daftarPesan.map((item, index) => (
+            <div
+              key={item.id}
+              className={`flex ${
+                index % 2 === 0 ? "justify-start" : "justify-end"
+              }`}
+            >
               <div
-                key={item.id}
-                className="p-3 bg-pink-50 border border-pink-100 rounded-lg shadow-sm"
+                className={`max-w-[80%] px-4 py-2 rounded-2xl shadow-md text-sm ${
+                  index % 2 === 0
+                    ? "bg-white border border-pink-100 text-gray-700"
+                    : "bg-pink-500 text-white"
+                }`}
               >
-                <p className="text-gray-700">{item.pesan}</p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p>{item.pesan}</p>
+                <p className="text-[10px] opacity-70 mt-1 text-right">
                   {item.waktu
-                    ? new Date(item.waktu.toDate()).toLocaleString()
+                    ? new Date(item.waktu.toDate()).toLocaleTimeString()
                     : "Baru saja"}
                 </p>
               </div>
-            ))
-          ) : (
-            <p className="text-gray-400 text-sm text-center">
-              Belum ada ucapan 😄
-            </p>
-          )}
-        </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-400 text-sm mt-10">
+            Belum ada ucapan 😄
+          </p>
+        )}
+        <div ref={chatEndRef} />
+      </div>
+
+      {/* Input Area */}
+      <div className="p-3 bg-white border-t border-pink-100 flex items-center space-x-2">
+        <textarea
+          value={pesan}
+          onChange={(e) => setPesan(e.target.value)}
+          placeholder="Tulis ucapanmu..."
+          className="flex-1 resize-none p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm h-12"
+        />
+        <button
+          onClick={kirimPesan}
+          className="bg-pink-500 hover:bg-pink-600 text-white rounded-xl px-4 py-2 transition-all shadow-md"
+        >
+          Kirim
+        </button>
       </div>
     </div>
   );
