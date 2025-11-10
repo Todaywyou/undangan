@@ -43,38 +43,31 @@ export default function Isi() {
       <FadeSection>
         <Header />
       </FadeSection>
-
       <FadeSection>
         <Bersama />
       </FadeSection>
-
       <FadeSection>
         <Tanggal />
       </FadeSection>
-
       <FadeSection>
         <Ayat />
       </FadeSection>
-
       <FadeSection id="foto">
         <Foto />
       </FadeSection>
-
       <FadeSection id="akad">
         <AkadResepsi />
       </FadeSection>
-
       <FadeSection id="rek">
         <Rek />
       </FadeSection>
-
       {/* ✅ Bagian ucapan tanpa animasi viewport */}
       <FadeSection id="ucapan" disableInView>
         <IsiUcapan />
       </FadeSection>
-
       {/* ✅ Sidebar bawah */}
       <BottomNav />
-    </div>
-  );
+         
+    </div>
+  );
 }
