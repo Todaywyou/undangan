@@ -21,7 +21,7 @@ export default function Bersama() {
     },
     {
       id: 3,
-      src: "/6.png",
+      src: "/b3.png",
       caption: "Kita tidak sempurna, tapi bersama kita menjadi utuh.",
     },
   ];
