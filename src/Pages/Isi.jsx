@@ -8,6 +8,7 @@ import AkadResepsi from "../components/AkadResepsi";
 import BottomNav from "../components/BottomNav";
 import Rek from "../components/Rek";
 import IsiUcapan from "../components/IsiUcapan";
+import BungaJatuh from "../components/BungaJatuh"; // 🌸 Tambahkan ini
 
 const fadeVariant = {
   hidden: { opacity: 0, y: 40, scale: 0.95 },
@@ -15,7 +16,6 @@ const fadeVariant = {
   exit: { opacity: 0, y: -40, scale: 0.95 },
 };
 
-// ✅ Komponen FadeSection — dengan opsi disableInView
 function FadeSection({ children, id, disableInView = false }) {
   return disableInView ? (
     <div id={id} className="w-full flex flex-col items-center">
@@ -39,7 +39,10 @@ function FadeSection({ children, id, disableInView = false }) {
 
 export default function Isi() {
   return (
-    <div className="min-h-[200vh] w-full flex flex-col items-center justify-start bg-via-[#fff5f6] space-y-12 pb-24">
+    <div className="relative min-h-[200vh] w-full flex flex-col items-center justify-start bg-[#fff5f6] space-y-12 pb-24 overflow-visible">
+      {/* 🌸 Efek bunga global */}
+      <BungaJatuh />
+
       <FadeSection>
         <Header />
       </FadeSection>
@@ -68,12 +71,10 @@ export default function Isi() {
         <Rek />
       </FadeSection>
 
-      {/* ✅ Bagian ucapan tanpa animasi viewport */}
       <FadeSection id="ucapan" disableInView>
         <IsiUcapan />
       </FadeSection>
 
-      {/* ✅ Sidebar bawah */}
       <BottomNav />
     </div>
   );
