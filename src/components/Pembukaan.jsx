@@ -195,7 +195,7 @@ function Pembukaan({ onOpen }) {
                 className="italic text-sm sm:text-lg mt-1 leading-tight"
                 style={{ color: "#8b6a4f" }}
               >
-                 Anak Pertama dari Bpk Yudi Irawan & Ibu Rini Sundaria
+                 Anak Pertama dari Bpk Yudi Irawan & Ibu Rini Sundari
               </p>
             </motion.div>
           </div>
